@@ -20,17 +20,20 @@ window.onload = function(){
             pieces[i].style.top = placeTop + 'px';
             pieces[i].style.left = placeLeft + 'px';
         }
-        pieces[i].style.backgroundPosition= '-' + pieces[i].style.left + ' ' + '-' + pieces[i].style.top;
+        pieces[i].style.backgroundPosition= "-" + pieces[i].style.left + ' -' +  pieces[i].style.top;
+        
         pieces[i].onmouseover = function(){
 			if (checkCanMove(parseInt(this.innerHTML)))
 			{
 				this.style.border = "2px solid red";
+				this.style.textDecoration = "underline";
 				this.style.color = "#006600";
 			}
 		};
 		
 		pieces[i].onmouseout = function(){
 			this.style.border = "2px solid black";
+			this.style.textDecoration = "none";
 			this.style.color = "#000000";
 		};
 
@@ -54,39 +57,24 @@ window.onload = function(){
 		for (var i=0; i<250; i++)
 		{
 			var rand = parseInt(Math.random()* 100) %4;
-			if (rand == 0)
+			switch(rand) //if (rand == 0)
 			{
-				var tmp = calcUp(spacea, spaceb);
-				if ( tmp != -1)
-				{
-					swap(tmp);
-				}
+				case 0:
+					var tmp = calcUp(spacea, spaceb);
+					break;
+				case 1:
+					var tmp = calcDown(spacea, spaceb);
+					break;
+				case 2:
+					var tmp = calcLeft(spacea, spaceb);
+					break;
+				case 3:
+					var tmp = calcRight(spacea, spaceb);
+					break;
 			}
-			if (rand == 1)
+			if (tmp != -1)
 			{
-				var tmp = calcDown(spacea, spaceb);
-				if ( tmp != -1) 
-				{
-					swap(tmp);
-				}
-			}
-
-			if (rand == 2)
-			{
-				var tmp = calcLeft(spacea, spaceb);
-				if ( tmp != -1)
-				{
-					swap(tmp);
-				}
-			}
-
-			if (rand == 3)
-			{
-				var tmp = calcRight(spacea, spaceb);
-				if (tmp != -1)
-				{
-					swap(tmp);
-				}
+				swap(tmp);
 			}
 		}
 	};
@@ -94,25 +82,11 @@ window.onload = function(){
 
 function checkCanMove(pos)
 {
-	if (calcLeft(spacea, spaceb) == (pos-1))
+	if ((calcLeft(spacea, spaceb) == (pos-1)) || (calcDown(spacea, spaceb) == (pos-1)) || (calcUp(spacea, spaceb) == (pos-1)) || (calcRight(spacea, spaceb) == (pos-1)))
 	{
 		return true;
 	}
-
-	if (calcDown(spacea, spaceb) == (pos-1))
-	{
-		return true;
-	}
-
-	if (calcUp(spacea, spaceb) == (pos-1))
-	{
-		return true;
-	}
-
-	if (calcRight(spacea, spaceb) == (pos-1))
-	{
-		return true;
-	}
+	
 }
 
 
